@@ -1,9 +1,9 @@
-# X-UI نسخه انگلیسی
-[برای نسخه فارسی X-UI] (README-fa.md)
+# X-UI نسخه فارسی
+[برای نسخه انگلیسی X-UI] (README.md)
 
 یکی دیگر از نسخه های ترجمه شده به انگلیسی X-UI. با برخی از ویژگی های پیشرفته تر پیاده سازی شده است.
  
-توسعه بعدی از [مخزن قبلی من] (https://github.com/NidukaAkalanka/x-ui-english.old) و
+توسعه بعدی از [مخزن قبلی من] (https://github.com/zahed3turke/x-ui-english.old) و
 یک چنگال از [taffychan's x-ui](https://github.com/taffychan/x-ui) + [x-ui hossinasaadi](https://github.com/hossinasaadi/x-ui)، که همه از [پروژه عالی vaxilu] (https://github.com/vaxilu/x-ui/) جدا شده اند: یک پنل Xray چند کاربره چند پروتکلی
 
 # امکانات
@@ -34,13 +34,13 @@
 # نصب و ارتقاء تک فرمان
 
 ```
-bash <(curl -Ls https://raw.githubusercontent.com/NidukaAkalanka/x-ui-english/master/install.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/zahed3turke/x-ui-english/master/install.sh)
 ```
 
 ## نصب و ارتقاء دستی
 
 1. ابتدا سیستم خود را به روز کنید
-1. سپس آخرین بسته فشرده را از https://github.com/NidukaAkalanka/x-ui-english/releases/latest دانلود کنید، به طور کلی معماری «amd64» را انتخاب کنید.
+1. سپس آخرین بسته فشرده را از https://github.com/zahed3turke/x-ui-english/releases/latest دانلود کنید، به طور کلی معماری «amd64» را انتخاب کنید.
 2. بسته فشرده شده را در دایرکتوری «/root/» سرور آپلود کنید و از کاربر «root» برای ورود به سرور و اجرای دستورات زیر استفاده کنید.
 
 > اگر معماری cpu سرور شما "amd64" نیست، "*" را در دستور با معماری دیگری جایگزین کنید
@@ -135,7 +135,7 @@ docker build -t x-ui .
 **نتیجه:**
 - پس از گذشت حدود 10 ثانیه از قطع کردن رایانه شخصی، اتصال تلفن همراه خود را دوباره به دست می آورد.
 
-**اگر نصب جدیدی باشد، این توابع، به خصوص محدود کردن IP، بدون جریان کار خواهند کرد. اما اگر مال شما یک ارتقا باشد، ممکن است کار نکنند. در چنین مواردی لطفاً [اینجا] (https://github.com/NidukaAkalanka/x-ui-english/discussions/27)** مراجعه کنید.
+**اگر نصب جدیدی باشد، این توابع، به خصوص محدود کردن IP، بدون جریان کار خواهند کرد. اما اگر مال شما یک ارتقا باشد، ممکن است کار نکنند. در چنین مواردی لطفاً [اینجا] (https://github.com/zahed3turke/x-ui-english/discussions/27)** مراجعه کنید.
 
 ## سیستم عامل های پیشنهادی
 
