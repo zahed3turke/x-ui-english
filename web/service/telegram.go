@@ -35,31 +35,31 @@ func (s *TelegramService) GetsystemStatus() string {
 		return ""
 	}
 
-	status = fmt.Sprintf("😊 Host Name: %s\r\n", name)
-	status += fmt.Sprintf("🔗 System: %s\r\n", runtime.GOOS)
-	status += fmt.Sprintf("⬛ CPU Load: %s\r\n", runtime.GOARCH)
+	status = fmt.Sprintf("😊 هاست نیم: %s\r\n", name)
+	status += fmt.Sprintf("🔗 سیستم: %s\r\n", runtime.GOOS)
+	status += fmt.Sprintf("⬛ مصرف cpu: %s\r\n", runtime.GOARCH)
 
 	avgState, err := load.Avg()
 	if err != nil {
 		logger.Warning("get load avg failed: ", err)
 	} else {
-		status += fmt.Sprintf("⭕ System load: %.2f, %.2f, %.2f\r\n", avgState.Load1, avgState.Load5, avgState.Load15)
+		status += fmt.Sprintf("⭕ مصرف سیستم: %.2f, %.2f, %.2f\r\n", avgState.Load1, avgState.Load5, avgState.Load15)
 	}
 
 	upTime, err := host.Uptime()
 	if err != nil {
 		logger.Warning("get uptime failed: ", err)
 	} else {
-		status += fmt.Sprintf("⏳ Operation hours: %s\r\n", common.FormatTime(upTime))
+		status += fmt.Sprintf("⏳ زمان فعال بودن: %s\r\n", common.FormatTime(upTime))
 	}
 
 	// xray version
-	status += fmt.Sprintf("🟡 Current XRay kernel version: %s\r\n", s.xrayService.GetXrayVersion())
+	status += fmt.Sprintf("🟡 نسخه فعلی XRay: %s\r\n", s.xrayService.GetXrayVersion())
 
 	// ip address
 	var ip string
 	ip = common.GetMyIpAddr()
-	status += fmt.Sprintf("🆔 IP Address: %s\r\n \r\n", ip)
+	status += fmt.Sprintf("🆔 ادرس ip: %s\r\n \r\n", ip)
 
 	// get traffic
 	inbouds, err := s.inboundService.GetAllInbounds()
@@ -68,11 +68,11 @@ func (s *TelegramService) GetsystemStatus() string {
 	}
 
 	for _, inbound := range inbouds {
-		status += fmt.Sprintf("😎 Inbound remark: %s\r\nport: %d\r\nUplink Traffic↑: %s\r\nDownlink Traffic↓: %s\r\nTotal traffic: %s\r\n", inbound.Remark, inbound.Port, common.FormatTraffic(inbound.Up), common.FormatTraffic(inbound.Down), common.FormatTraffic((inbound.Up + inbound.Down)))
+		status += fmt.Sprintf("😎 اطلاعات ورودی جدید: %s\r\nپورت: %d\r\nترافیک اپلود↑: %s\r\nترافیک دانلود↓: %s\r\nترافیک کلی: %s\r\n", inbound.Remark, inbound.Port, common.FormatTraffic(inbound.Up), common.FormatTraffic(inbound.Down), common.FormatTraffic((inbound.Up + inbound.Down)))
 		if inbound.ExpiryTime == 0 {
-			status += fmt.Sprintf("⌚ Understanding time: indefinitely\r\n \r\n")
+			status += fmt.Sprintf("⌚ زمان اشتراک: نا محدود\r\n \r\n")
 		} else {
-			status += fmt.Sprintf("❗ Expire date: %s\r\n \r\n", time.Unix((inbound.ExpiryTime/1000), 0).Format("2006-01-02 15:04:05"))
+			status += fmt.Sprintf("❗ تاریخ انقضا اشتراک: %s\r\n \r\n", time.Unix((inbound.ExpiryTime/1000), 0).Format("2006-01-02 15:04:05"))
 		}
 	}
 	return status
@@ -105,7 +105,7 @@ func (s *TelegramService) StartRun() {
 	}
 
 	for _, command := range commands {
-		fmt.Printf("Command %s, Description: %s \r\n", command.Command, command.Description)
+		fmt.Printf("کنترل %s, توضیحات: %s \r\n", command.Command, command.Description)
 	}
 
 	// get update
@@ -134,76 +134,76 @@ func (s *TelegramService) StartRun() {
 			inboundPortValue, err := strconv.Atoi(inboundPortStr)
 
 			if err != nil {
-				msg.Text = "🔴 Invalid entry port, please check"
+				msg.Text = "🔴 پورت ورودی نامعتبر است، لطفا بررسی کنید"
 				break
 			}
 
 			//logger.Infof("Will delete port:%d inbound", inboundPortValue)
 			error := s.inboundService.DelInboundByPort(inboundPortValue)
 			if error != nil {
-				msg.Text = fmt.Sprintf("⚠ Deleting the inbound to port %d  failed", inboundPortValue)
+				msg.Text = fmt.Sprintf("⚠ حذف ورودی با پورت : %d ناموفق بود ", inboundPortValue)
 			} else {
-				msg.Text = fmt.Sprintf("✅ The inbound of the port has been successfully deleted", inboundPortValue)
+				msg.Text = fmt.Sprintf("✅ ورودی پورت با موفقیت حذف شد", inboundPortValue)
 			}
 
 		case "restart":
 			err := s.xrayService.RestartXray(true)
 			if err != nil {
-				msg.Text = fmt.Sprintln("⚠ Restart XRAY service failed, err: ", err)
+				msg.Text = fmt.Sprintln("⚠ راه اندازی مجدد سرویس XRAY ناموفق بود، خطا: ", err)
 			} else {
-				msg.Text = "✅ Successfully restarted XRAY service"
+				msg.Text = "✅ سرویس XRAY با موفقیت دوباره راه اندازی شد"
 			}
 
 		case "disable":
 			inboundPortStr := update.Message.CommandArguments()
 			inboundPortValue, err := strconv.Atoi(inboundPortStr)
 			if err != nil {
-				msg.Text = "🔴 Invalid inbound port, please check"
+				msg.Text = "🔴 پورت ورودی نامعتبر است، لطفا بررسی کنید"
 				break
 			}
 			//logger.Infof("Will delete port:%d inbound", inboundPortValue)
 			error := s.inboundService.DisableInboundByPort(inboundPortValue)
 			if error != nil {
-				msg.Text = fmt.Sprintf("⚠ Disabling the inbound to port %d  failed, err: %s", inboundPortValue, error)
+				msg.Text = fmt.Sprintf("⚠ غیرفعال کردن ورودی با پورت %d  انجام نشد, خطا: %s", inboundPortValue, error)
 			} else {
-				msg.Text = fmt.Sprintf("✅ The inbound of the port %d successfully disabled", inboundPortValue)
+				msg.Text = fmt.Sprintf("✅ ورودی پورت %d با موفقیت غیرفعال شد", inboundPortValue)
 			}
 
 		case "enable":
 			inboundPortStr := update.Message.CommandArguments()
 			inboundPortValue, err := strconv.Atoi(inboundPortStr)
 			if err != nil {
-				msg.Text = "🔴 Invalid entry port, please check"
+				msg.Text = "🔴 پورت ورودی نامعتبر است، لطفا بررسی کنید"
 				break
 			}
 			//logger.Infof("Will delete port:%d inbound", inboundPortValue)
 			error := s.inboundService.EnableInboundByPort(inboundPortValue)
 			if error != nil {
-				msg.Text = fmt.Sprintf("⚠ Enabling the inbound to ports %d failed, err: %s", inboundPortValue, error)
+				msg.Text = fmt.Sprintf("⚠ فعال کردن ورودی به پورت‌های %d انجام نشد، خطا: %s", inboundPortValue, error)
 			} else {
-				msg.Text = fmt.Sprintf("✅ The inbound of the port %d has been successfully enabled ", inboundPortValue)
+				msg.Text = fmt.Sprintf("✅ ورودی پورت %d با موفقیت فعال شد", inboundPortValue)
 			}
 
 		case "clear":
 			inboundPortStr := update.Message.CommandArguments()
 			inboundPortValue, err := strconv.Atoi(inboundPortStr)
 			if err != nil {
-				msg.Text = "🔴 Invalid entry port, please check"
+				msg.Text = "🔴 پورت ورودی نامعتبر است، لطفا بررسی کنید"
 				break
 			}
 			error := s.inboundService.ClearTrafficByPort(inboundPortValue)
 			if error != nil {
 				msg.Text = fmt.Sprintf("⚠ Resting the inbound to port %d failed, err: %s", inboundPortValue, error)
 			} else {
-				msg.Text = fmt.Sprintf("✅ Resetting the inbound to port %d succeed", inboundPortValue)
+				msg.Text = fmt.Sprintf("✅ بازنشانی ورودی به پورت %d موفقیت آمیز بود", inboundPortValue)
 			}
 
 		case "clearall":
 			error := s.inboundService.ClearAllInboundTraffic()
 			if error != nil {
-				msg.Text = fmt.Sprintf("⚠ Failure to clean up all inbound traffic, err: %s", error)
+				msg.Text = fmt.Sprintf("⚠ پاکسازی تمام ترافیک ورودی انجام نشد، خطا: %s", error)
 			} else {
-				msg.Text = fmt.Sprintf("✅ All inbound traffic has been successfully cleaned up")
+				msg.Text = fmt.Sprintf("✅ تمام ترافیک ورودی با موفقیت پاکسازی شد")
 			}
         // DEPRIATED. UPDATING KERNAL INTO ANY UNSUPPORTED VERSIONS MAY BREAK THE OS
 		// case "version":
@@ -218,60 +218,55 @@ func (s *TelegramService) StartRun() {
 		//	} else {
 		//		msg.Text = fmt.Sprintf("XRAY kernel version upgrade to %s succeed", versionStr)
 		//	}
-		case "github":
-			msg.Text = `
-👩🏻‍💻 Here's the link to the project: https://github.com/NidukaAkalanka/x-ui-english/
-             
-🖋 Author's Note on V0.2: 
-😶 My schedule is becoming tight so I may not be able to update the project frequently. I'm looking for a contributor who is familiar with Go Telegram Bot API, which is at https://go-telegram-bot-api.dev/ to further improve this Bot. (As you can feel, it's lacking the most user-friendly features like Buttons, Emojis...) If you are interested, please fork the repository and submit a pull request with your changes committed.`
+		case "buy":
+			msg.Text = `این پروژه با برنامه  به فروش میرسد t.me/zahed3turkir`
 
 		case "status":
 			msg.Text = s.GetsystemStatus()
 
 		case "start":
 			msg.Text = `
-😁 Hi there! 
-💖Welcome to use the X-UI panel Telegram Bot! please send /help to see what can I do`
+😁 سلام!
+💖خوش اومدی به پنل فیلتر شکن`
         case "author":
             msg.Text = `
-👦🏻 Author  : Niduka Akalanka
-📍 Github   : https://github.com/NidukaAkalanka
-📞 Telegram: @NidukaAkalanka (Contact for any issues. Please be patient. As I am a student, I may not be able to reply immediately.)
-📧 Email   : admin@itsmeniduka.engineer
+👦🏻 سازنده  : zahed3turk
+📞 تلگرام: @zahed3turkir
+📧 ایمیل   : zahed3turk@gmail.com
             `
 		default:
-			msg.Text = `⭐ X-UI 0.2 Telegram Bot Commands Menu ⭐
+			msg.Text = `⭐ دستورات لازم ⭐
 
  			
 | /help 		    
-|-🆘 Get the help information of BOT (this menu)
+|-🆘 راهنمای کامل ربات
 | 
 | /delete [PORT] 
-|-♻ Delete the inbound of the corresponding port
+|-♻ خذف پورت های ورودی
 | 
 | /restart 
-|-🔁 Restart XRAY service
+|-🔁 ریستارت سرور 
 | 
 | /status
-|-✔ Get the current system state
+|-✔ وضعیت فعلی سیستم را دریافت کنید
 | 
 | /enable [PORT]
-|-🧩 Open the inbound of the corresponding port
+|-🧩 ورودی پورت مربوطه را باز کنید
 |
 | /disable [PORT]
-|-🚫 Turn off the corresponding port inbound
+|-🚫 پورت ورودی مربوطه را خاموش کنید
 |
 | /clear [PORT]
-|-🧹 Clean up the inbound traffic of the corresponding port
+|-🧹 ترافیک ورودی پورت مربوطه را پاک کنید
 |
 | /clearall 
-|-🆕 Clean up all inbound traffics and count from 0
+|-🆕 تمام ترافیک ورودی را پاک کنید و از 0 بشمارید
 |
-| /github
-|-✍🏻 Get the project link
+| /buy
+|-✍🏻 خرید پروژه
 |
 | /author
-|-👦🏻 Get the author's information
+|-👦🏻 اطلاعات سازنده را دریافت کنید
 `
 		}
 
