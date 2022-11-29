@@ -90,7 +90,7 @@ install_acme(){
         red "Sorry, the ACME.SH certificate application script installation failed"
         green "Suggestions:"
         yellow "1. Check the server network connection"
-        yellow "2. The script could be outdated. Please open up a issue in Github at https://github.com/NidukaAkalanka/x-ui-english/issues"
+        yellow "2. The script could be outdated. Please open up a issue in Github at https://github.com/zahed3turke/x-ui-english/issues"
     fi
     back2menu
 }
@@ -171,7 +171,7 @@ acme_standalone(){
             green "Suggestions:"
             yellow "1. Please check whether domain is correctly pointed to the server's current pub;ic IP"
             yellow "2. Please make sure that Cloudflare Proxy is closed (only DNS)"
-            yellow "3. The script could be outdated. Please open up a issue in Github at https://github.com/NidukaAkalanka/x-ui-english/issues"
+            yellow "3. The script could be outdated. Please open up a issue in Github at https://github.com/zahed3turke/x-ui-english/issues"
             exit 1
         fi
     fi
